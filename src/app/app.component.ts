@@ -22,7 +22,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit() {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+      navigator.mediaDevices.getUserMedia({  video: {
+          facingMode: { exact: 'environment' }
+        } }).then(stream => {
         //this.video.srcObject = stream;
 
         this.video.nativeElement.srcObject = stream;
@@ -34,6 +36,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   public capture() {
     const context = this.canvas.nativeElement.getContext('2d').drawImage(this.video.nativeElement, 0, 0, 640, 480);
     this.captures.push(this.canvas.nativeElement.toDataURL('image/png'));
-    console.log(this.captures[0]);
+    console.log(this.captures[0])
   }
 }
