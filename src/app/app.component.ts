@@ -21,12 +21,17 @@ export class AppComponent implements OnInit, AfterViewInit {
   public ngOnInit() { }
 
   public ngAfterViewInit() {
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia
+      &&  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(navigator.userAgent)) {
       navigator.mediaDevices.getUserMedia({  video: {
           facingMode: { exact: 'environment' }
         } }).then(stream => {
-        //this.video.srcObject = stream;
-
+        this.video.nativeElement.srcObject = stream;
+        this.video.nativeElement.play();
+      });
+    }
+    else if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({  video: true }).then(stream => {
         this.video.nativeElement.srcObject = stream;
         this.video.nativeElement.play();
       });
